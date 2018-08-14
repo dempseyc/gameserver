@@ -119,5 +119,5 @@ async def room(websocket, path):
         await unregister(cid)
 
 asyncio.get_event_loop().run_until_complete(
-    websockets.serve(room, '127.0.0.1', 8765))
+    websockets.serve(room, config['WS_HOST'], config['WS_PORT'],))
 asyncio.get_event_loop().run_forever()
