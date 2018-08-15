@@ -119,6 +119,6 @@ async def room(websocket, path):
     finally:
         await unregister(cid)
 
-asyncio.get_event_loop().run_until_complete(
+await asyncio.get_event_loop().run_until_complete(
     websockets.serve(room, 'https://ttt-hit-pow.herokuapp.com/', 80))
-asyncio.get_event_loop().run_forever()
+await asyncio.get_event_loop().run_forever()
