@@ -1,1 +1,1 @@
-web: python wsserver.py --port $PORT
+web: python wsserver.py
