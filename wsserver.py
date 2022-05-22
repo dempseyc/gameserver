@@ -74,6 +74,7 @@ async def handleGame(data):
     elif (data['text'] == 'ready'):
         data['text'] = 'start'
         data['sender'] = 'game'
+        data['data'] = [['0' for _ in range(5)] for _ in range(5)]
         await notify_public_message(data)
         cards = game.deal_3(1)
         await notify_client(cards)
