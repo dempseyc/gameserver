@@ -119,6 +119,7 @@ async def room(websocket, path):
     finally:
         await unregister(cid)
 
+# getting errors close code: 1011 and 1006
 asyncio.get_event_loop().run_until_complete(
     websockets.serve(room, '', os.environ.get('PORT')))
 asyncio.get_event_loop().run_forever()
