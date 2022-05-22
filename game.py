@@ -25,7 +25,7 @@ class Game(object):
     def reset(self):
         self.quit_game()
         self.__init__()
-        message = self.create_message('game','game','game','reset')
+        message = self.create_message('game','game','game','reset',self.strip_private_info(self.board))
         return message;
 
     def __build_deck(self):
