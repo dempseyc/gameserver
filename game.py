@@ -74,16 +74,21 @@ class Game(object):
             tha_bomb = message['data'][3]
             tha_bomb = self.bombs_on_board[0]
             cards_to_return = self.explode_bomb(player,tha_bomb)
-            print(cards_to_return, "return")
-            # put a 1 card in place of bomb
+            # print(cards_to_return, "return")
+            # replace bomb with 1 card
             card_val = 1
             square = [tha_bomb[0],tha_bomb[1]]
             # delete a 1 card from deck
+            self.decks[player-1].remove('1')
+            # put 1 card in cards_to_return in replace of 3 card
+            cards_to_return.append(str(player)+'-'+str(1))
+            # return cards
+            self.return_cards(cards_to_return)
 
         elif card_val == str(2):
             existing_card = self.board[int(square[0])][int(square[1])]
             if (existing_card != '0'):
-                print('existing',existing_card)
+                # print('existing',existing_card)
                 owner = existing_card.split('-')[0]
                 val = existing_card.split('-')[1]
                 if (val == str(3)):
