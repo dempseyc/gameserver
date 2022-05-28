@@ -26,22 +26,22 @@ class Game(object):
         self.quit_game()
         self.__init__()
         message = self.create_message('game','game','game','reset',self.strip_private_info(self.board))
-        return message;
+        return message
 
     def __build_deck(self):
         cards = [1,1,1,1,1,1,1,1,1,1,1,1,2,2,3]
         random.shuffle(cards)
-        return cards;
+        return cards
 
     def deal_3(self,player):
         message = self.create_message('game', 'game', self.players[player-1], 'cards', self.decks[player-1][:3:])
         del self.decks[player-1][:3:]
-        return message;
+        return message
 
     def deal_1(self,player):
         message = self.create_message('game', 'game', self.players[player-1], 'cards', self.decks[player-1][:1:])
         del self.decks[player-1][:1:]
-        return message;
+        return message
 
     def return_cards(self,cards):
         for c in cards:
@@ -60,7 +60,7 @@ class Game(object):
 
     def create_message(self, tag, sender, receiver, text, data=None):
         message = {'tag': tag, 'sender': sender, 'receiver': receiver, 'text': text, 'data': data}
-        return message;
+        return message
 
     def process_message(self, message):
         print(message)
@@ -71,7 +71,7 @@ class Game(object):
         self.bomb_disabled = False
 
         if len(message['data']) > 3:
-            tha_bomb = message['data'][3]
+            # tha_bomb = message['data'][3]
             tha_bomb = self.bombs_on_board[0]
             cards_to_return = self.explode_bomb(player,tha_bomb)
             # print(cards_to_return, "return")
@@ -79,7 +79,7 @@ class Game(object):
             card_val = 1
             square = [tha_bomb[0],tha_bomb[1]]
             # delete a 1 card from deck
-            self.decks[player-1].remove('1')
+            self.decks[player-1].remove(1)
             # put 1 card in cards_to_return in replace of 3 card
             cards_to_return.append(str(player)+'-'+str(1))
             # return cards
@@ -97,15 +97,18 @@ class Game(object):
 
         elif card_val == str(3):
             self.load_bomb(square[0],square[1],player)
+
         self.board[int(square[0])][int(square[1])] = str(player)+'-'+str(card_val)
         text = 'board'
+
         if (self.bomb_disabled):
             text = 'disable'
+
         return self.create_message('game','game','game',text,self.strip_private_info(self.board))
 
     def strip_private_info(self,board_data):
         public_board = [[s[0] for s in row] for row in board_data]
-        return public_board;
+        return public_board
 
     def load_bomb(self,cy,cx,player_num):
         self.bombs_on_board.append([cy,cx,player_num])
@@ -113,33 +116,33 @@ class Game(object):
 
     def disable_bomb(self,player_num):
         self.bombs_on_board.pop(0)
-        return True;
+        return True
 
     def explode_bomb(self,player,bomb):
         square = [bomb[0],bomb[1]]
         del self.bombs_on_board[0]
-        cards_returned = self.bombBoard(square)
+        cards_returned = self.bomb_board(square)
         for c in cards_returned:
             owner = int(c.split('-')[0])
             val = c.split('-')[1]
             if val == str(3):
                 self.bomb_disabled = self.disable_bomb(owner)
-        return cards_returned;
+        return cards_returned
 
-    def bombBoard(self,b):
+    def bomb_board(self,b):
         cards_removed = []
         for i,row in enumerate(self.board):
             for j,s in enumerate(row):
                 if (self.is_adjacent([i,j],b) and self.board[i][j] != '0'):
                     cards_removed.append(self.board[i][j])
                     self.board[i][j] = '0'
-        return cards_removed;
+        return cards_removed
 
     def is_adjacent(self,s,b):
         ss = [int(s[0]),int(s[1])]
         adjacent = self.get_adjacent(b)
         if ss in adjacent:
-            return True;
+            return True
 
     def get_adjacent(self,square):
         limit = len(self.board)
@@ -148,7 +151,7 @@ class Game(object):
         h = [x+1,x,x-1]
         v = [y+1,y,y-1]
         adj = [[a,b] for a in h for b in v if a in range(limit) if b in range(limit) if [a,b] != [x,y]]
-        return adj;
+        return adj
 
     def switch_turn(self):
         if (self.whos_turn == self.players[0]):
@@ -169,7 +172,7 @@ class Game(object):
 
     def reply_to_bad_joiner(self, player):
         message = self.create_message('direct', 'game', player, 'try later.')
-        return message;
+        return message
 
     def make_win_states(self):
         hs = [[str(x)+str(y) for y in range(5)] for x in range(5)]
@@ -177,7 +180,7 @@ class Game(object):
         diag1 = [str(x)*2 for x in range(5)]
         diag2 = ['40','31','22','13','04']
         combos = hs+vs+[diag1]+[diag2]
-        return combos;
+        return combos
 
     # wrote this with no bugs on first try, wow!
     def check_board_for_combo(self,combo):
@@ -190,7 +193,7 @@ class Game(object):
             if (val[0] == prev and val[0] != '0'):
                 prev = board_vals[i][0]
                 player = val[0]
-                continue;
+                continue
             else:
                 result = False
         return [result, player]
@@ -202,10 +205,10 @@ class Game(object):
             for win_combo in self.win_states:
                 win = self.check_board_for_combo(win_combo)
                 if(win[0]):
-                    return win;
+                    return win
                 else:
-                    continue;
-        return win;
+                    continue
+        return win
 
     def create_win_message(self,player):
         winner = self.players[int(player)-1]

@@ -84,13 +84,20 @@ async def handleGame(data):
         is_bomb = False
         if (len(data['data'])>3):
             is_bomb = True
+
+        # this is where new 'board' comes back
         data = game.process_message(data)
+        # and is sent up
         await notify_public_message(data)
+
+        # the player gets new card, 
         if (not is_bomb):
             player = game.players.index(game.whos_turn)+1
             cards = game.deal_1(player)
             await notify_client(cards)
+
         win_state = game.check_win_state()
+
         if (win_state[0]):
             print('win')
             data = game.create_win_message(win_state[1])
