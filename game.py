@@ -14,8 +14,7 @@ class Game(object):
         self.bomb_disabled = False
         self.win_states = self.make_win_states()
         self.winner = [False,'0']
-        self.starter_board =
-        [["2-1", "0", "1-1", "0", "1-1"],
+        self.starter_board = [["2-1", "0", "1-1", "0", "1-1"],
         ["0", "0", "0", "0", "0"],
         ["1-1", "0", "1-1", "0", "2-1"],
         ["0", "0", "0", "0", "0"],
