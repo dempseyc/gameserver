@@ -101,9 +101,9 @@ class Game(object):
         if card_val == str(4):
             self.board = self.starter_board
             for _ in range(5):
-                del self.decks[0][self.decks[0].index('1')]
+                del self.decks[0][self.decks[0].index(1)]
             for _ in range(4):
-                del self.decks[1][self.decks[1].index('1')]
+                del self.decks[1][self.decks[1].index(1)]
 
         text = 'board'
 
