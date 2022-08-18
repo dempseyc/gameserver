@@ -10,8 +10,6 @@ import game
 
 logging.basicConfig()
 
-STATE = {'value': 0}
-
 clients = {}
 
 game = game.Game()
@@ -81,17 +79,19 @@ async def handleGame(data):
         cards = game.deal_3(2)
         await notify_client(cards)
     elif (data['text'] == 'move'):
+        is_starter = False;
         is_bomb = False
         if (len(data['data'])>3):
             is_bomb = True
-
+        if (data['data'][0] == '4'):
+            is_starter = True
         # this is where new 'board' comes back
         data = game.process_message(data)
         # and is sent up
         await notify_public_message(data)
 
         # the player gets new card, 
-        if (not is_bomb):
+        if (not is_bomb and not is_starter):
             player = game.players.index(game.whos_turn)+1
             cards = game.deal_1(player)
             await notify_client(cards)
@@ -127,7 +127,6 @@ async def room(websocket, path):
     finally:
         await unregister(cid)
 
-# getting errors close code: 1011 and 1006
 asyncio.get_event_loop().run_until_complete(
     websockets.serve(room, '', os.environ.get('PORT')))
 asyncio.get_event_loop().run_forever()

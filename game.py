@@ -14,13 +14,12 @@ class Game(object):
         self.bomb_disabled = False
         self.win_states = self.make_win_states()
         self.winner = [False,'0']
-        # self.starter_board =
-        # [["2", "0", "1", "0", "1"],
-        # ["0", "0", "0", "0", "0"],
-        # ["1", "0", "1", "0", "2"],
-        # ["0", "0", "0", "0", "0"],
-        # ["2", "0", "2", "0", "1"]]
-        # player 2s turn
+        self.starter_board =
+        [["2-1", "0", "1-1", "0", "1-1"],
+        ["0", "0", "0", "0", "0"],
+        ["1-1", "0", "1-1", "0", "2-1"],
+        ["0", "0", "0", "0", "0"],
+        ["2-1", "0", "2-1", "0", "1-1"]]
 
     def reset(self):
         self.quit_game()
@@ -99,6 +98,14 @@ class Game(object):
             self.load_bomb(square[0],square[1],player)
 
         self.board[int(square[0])][int(square[1])] = str(player)+'-'+str(card_val)
+
+        if card_val == str(4):
+            self.board = self.starter_board
+            for _ in range(5)
+                del self.decks[0][self.decks[0].index('1')]
+            for _ in range(4)
+            del self.decks[1][self.decks[1].index('1')]
+
         text = 'board'
 
         if (self.bomb_disabled):
