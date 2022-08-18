@@ -83,7 +83,7 @@ async def handleGame(data):
         is_bomb = False
         if (len(data['data'])>3):
             is_bomb = True
-        if (data['data'][0] == '4'):
+        if (data['data'][1] == '4'):
             is_starter = True
         # this is where new 'board' comes back
         data = game.process_message(data)
