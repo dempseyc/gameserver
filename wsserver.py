@@ -90,11 +90,13 @@ async def handleGame(data):
         # and is sent up
         await notify_public_message(data)
 
+        cards = []
         # the player gets new card, 
         if (not is_bomb and not is_starter):
             player = game.players.index(game.whos_turn)+1
             cards = game.deal_1(player)
-            await notify_client(cards)
+
+        await notify_client(cards)
 
         win_state = game.check_win_state()
 
