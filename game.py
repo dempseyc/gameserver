@@ -31,6 +31,10 @@ class Game(object):
         random.shuffle(cards)
         return cards
 
+    def deal_0(self,player):
+        message = self.create_message('game', 'game', self.players[player-1], 'cards', [])
+        return message
+
     def deal_3(self,player):
         message = self.create_message('game', 'game', self.players[player-1], 'cards', self.decks[player-1][:3:])
         del self.decks[player-1][:3:]
